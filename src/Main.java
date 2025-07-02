@@ -1,19 +1,26 @@
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
-        BankAccount account1 = new BankAccount("Иван Иванов");
-        BankAccount account2 = new BankAccount("Петр Петров");
+        int[] carYears = new int[50];
+        Random random = new Random();
 
-        boolean depositSuccess = account1.deposit(1000);
-        System.out.println("Пополнение счета: " + (depositSuccess ? "Успешно" : "Ошибка"));
+        for (int i = 0; i < carYears.length; i++) {
+            carYears[i] = 2000 + random.nextInt(26);
+        }
 
+        System.out.println("Машины после 2015 года:");
+        for (int year : carYears) {
+            if (year > 2015) {
+                System.out.println(year);
+            }
+        }
 
-        boolean withdrawSuccess = account1.withdraw(500);
-        System.out.println("Снятие денег: " + (withdrawSuccess ? "Успешно" : "Ошибка"));
-
-        boolean transferSuccess = account1.transfer(account2, 300);
-        System.out.println("Перевод денег: " + (transferSuccess ? "Успешно" : "Ошибка"));
-
-        System.out.println("Счет 1: " + account1);
-        System.out.println("Счет 2: " + account2);
+        int sum = 0;
+        for (int year : carYears) {
+            sum += (2025 - year);
+        }
+        double averageAge = (double) sum / carYears.length;
+        System.out.println("Средний возраст авто: " + averageAge);
     }
 }
