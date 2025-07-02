@@ -12,4 +12,12 @@ public class BankAccount {
         this.openDate = LocalDateTime.now();
         this.isBlocked = false;
     }
+
+    public boolean deposit(int amount) {
+        if (amount <= 0 || isBlocked) {
+            return false;
+        }
+        balance += amount;
+        return true;
+    }
 }
