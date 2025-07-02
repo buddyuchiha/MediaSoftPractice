@@ -37,4 +37,14 @@ public class BankAccount {
         otherAccount.balance += amount;
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "ownerName='" + ownerName + '\'' +
+                ", balance=" + balance +
+                ", openDate=" + openDate +
+                ", isBlocked=" + isBlocked +
+                '}';
+    }
 }
