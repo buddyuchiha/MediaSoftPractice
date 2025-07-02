@@ -20,4 +20,12 @@ public class BankAccount {
         balance += amount;
         return true;
     }
+
+    public boolean withdraw(int amount) {
+        if (amount <= 0 || isBlocked || amount > balance) {
+            return false;
+        }
+        balance -= amount;
+        return true;
+    }
 }
