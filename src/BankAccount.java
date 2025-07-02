@@ -28,4 +28,13 @@ public class BankAccount {
         balance -= amount;
         return true;
     }
+
+    public boolean transfer(BankAccount otherAccount, int amount) {
+        if (amount <= 0 || isBlocked || amount > balance || otherAccount.isBlocked) {
+            return false;
+        }
+        balance -= amount;
+        otherAccount.balance += amount;
+        return true;
+    }
 }
