@@ -1,23 +1,37 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        Set<Car> carSet = new HashSet<>();
-        Car car1 = new Car("VIN123", "Camry", "Toyota", 2020, 50_000, 25_000);
-        Car car2 = new Car("VIN456", "X5", "BMW", 2021, 30_000, 60_000);
-        Car car3 = new Car("VIN123", "Corolla", "Toyota", 2019, 70_000, 20_000);
+        List<Car> cars = Arrays.asList(
+                new Car("VIN001", "Camry", "Toyota", 2020, 45_000, 25_000),
+                new Car("VIN002", "X5", "BMW", 2021, 30_000, 60_000),
+                new Car("VIN003", "Civic", "Honda", 2019, 55_000, 20_000),
+                new Car("VIN004", "Model 3", "Tesla", 2022, 10_000, 50_000),
+                new Car("VIN005", "Corolla", "Toyota", 2020, 60_000, 22_000),
+                new Car("VIN006", "A4", "Audi", 2023, 5_000, 45_000)
+        );
 
-        System.out.println("Пытаемся добавить 3 машины (2 с одинаковым VIN):");
-        System.out.println("Добавлена car1? " + carSet.add(car1));
-        System.out.println("Добавлена car2? " + carSet.add(car2));
-        System.out.println("Добавлена car3? " + carSet.add(car3));
+        System.out.println("1. Машины с пробегом < 50_000 км:");
+        cars.stream()
+                .filter(car -> car.getMileage() < 50_000)
+                .forEach(car -> System.out.println("  - " + car.getManufacturer() + " " + car.getModel() + " (" + car.getMileage() + " км)"));
 
-        System.out.println("\nИтоговое количество машин в HashSet: " + carSet.size());
+        System.out.println("\n2. Топ-3 самых дорогих:");
+        cars.stream()
+                .sorted((c1, c2) -> Double.compare(c2.getPrice(), c1.getPrice()))
+                .limit(3)
+                .forEach(car -> System.out.println("  - " + car.getManufacturer() + " " + car.getModel() + " ($" + car.getPrice() + ")"));
 
-        List<Car> sortedCars = new ArrayList<>(carSet);
-        Collections.sort(sortedCars);
+        double avgMileage = cars.stream()
+                .mapToInt(Car::getMileage)
+                .average()
+                .orElse(0);
+        System.out.println("\n3. Средний пробег: " + avgMileage + " км");
 
-        System.out.println("\nМашины отсортированы по году (от новых к старым):");
-        sortedCars.forEach(car -> System.out.println(car.getYear() + " " + car.getModel()));
+        System.out.println("\n4. Группировка по производителю:");
+        cars.stream()
+                .collect(Collectors.groupingBy(Car::getManufacturer))
+                .forEach((maker, list) -> System.out.println("  - " + maker + ": " + list.size() + " авто"));
     }
 }
